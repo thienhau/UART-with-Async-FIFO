@@ -31,10 +31,10 @@ The design acts as a bridge between two distinct clock regions:
 ## 🧪 Parameters & Configuration
 The top-level module `uart_full_duplex` uses the following parameters:
 - `CLK_PER_BIT`: Number of `uart_clk` cycles per UART bit.
-  - *Calculation:* $CLK\_PER\_BIT = \frac{f_{uart\_clk}}{BaudRate}$
-  - *Example:* For 100MHz clock and 115200 Baud, $CLK\_PER\_BIT \approx 868$.
+  - *Calculation:* CLK_PER_BIT = f_{uart_clk}/{BaudRate}
+  - *Example:* For 100MHz clock and 115200 Baud, CLK_PER_BIT approx 86.8.
 - `DATA_WIDTH`: Size of the data packet (default: 8 bits).
-- `ADDR_WIDTH`: Determines FIFO depth ($Depth = 2^{ADDR\_WIDTH}$).
+- `ADDR_WIDTH`: Determines FIFO depth (Depth = 2^{ADDR_WIDTH}).
 
 ## 💻 Requirements
 - **Simulation:** ModelSim, Icarus Verilog, QuestaSim, or Vivado Simulator.
@@ -52,13 +52,13 @@ The design is rigorously verified using a self-checking testbench architecture. 
 
 ### 📋 Test Scenarios
 The test suite (comprising 20 comprehensive tests) covers:
-
 1. **Data Integrity (Group 1):** Validates standard patterns (`0x55`, `0xAA`, `0xFF`) to ensure no bit-flips during serialization or FIFO buffering.
-2. **FIFO & Flow Control Stress (Group 2):** - **Burst Transfers:** Sending rapid sequences (up to 20 bytes) to exercise the `tx_fifo_full` back-pressure mechanism.
-   - **Rapid Random:** Verifies FIFO stability khi dữ liệu đẩy vào ở tốc độ cao.
+2. **FIFO & Flow Control Stress (Group 2):**
+    - **Burst Transfers:** Sending rapid sequences (up to 20 bytes) to exercise the `tx_fifo_full` back-pressure mechanism.
+    - **Rapid Random:** Verifies FIFO stability when data is fed in at high speed.
 3. **Timing & Asynchronous Robustness (Group 3):**
-   - **CDC Handshaking:** Kiểm tra việc đồng bộ con trỏ mã Gray giữa 2 miền clock.
-   - **Long Stream Stress:** Truyền liên tục **1000 random bytes** để đảm bảo hệ thống không có sai số tích lũy (zero drift).
+    - **CDC Handshaking:** Checks the synchronization of Gray code pointers between two clock domains.
+    - **Long Stream Stress:** Continuously transmits **1000 random bytes** to ensure zero drift.
 4. **Corner Cases (Group 4):**
-   - **Reset Recovery:** Kích hoạt Reset ngay khi đang truyền dữ liệu để kiểm tra khả năng khôi phục trạng thái IDLE.
-   - **Random Delays:** Mô phỏng sự trễ ngẫu nhiên của dữ liệu đầu vào.
+    - **Reset Recovery:** Activates a reset during data transmission to test the ability to recover the IDLE state.
+    - **Random Delays:** Simulates random delays in input data.
