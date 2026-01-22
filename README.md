@@ -28,7 +28,8 @@ Consult the top-level module comments for exact parameter names.
 
 ## Tests
 - Use the provided testbench(es) in tb/ to validate transmit and receive functionality.
-- Add directed tests to exercise corner cases (parity, start/stop bits, buffer full/empty).
+- Add directed tests to exercise corner cases (start/stop bits, buffer full/empty).
+- Test long stream stress with large amounts of data.
 
 ## Author
 thienhau
